@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'active_record'
 require 'yaml'
+require 'pry'
 
 class SeattleRecord < ActiveRecord::Base
 end
@@ -8,10 +9,14 @@ end
 db = YAML::load(File.open('db/database.yml'))
 ActiveRecord::Base.establish_connection(db)
 
-lines = File.new('seattle_data_sample.csv').readlines
+lines = File.new('data/seattle_data.csv').readlines
 header = lines.shift.strip
+
+header.force_encoding("UTF-8").gsub!(
+  "\xEF\xBB\xBF".force_encoding("UTF-8"), '')
+
 keys = header.split(',')
-lines.each do |line|
+lines.each_with_index do |line, l|
   params = {}
   values = line.strip.split(',')
   keys.each_with_index do |key, i|
@@ -21,5 +26,10 @@ lines.each do |line|
       params[key] = values[i]
     end
   end
-  SeattleRecord.create(params)
+  begin
+    SeattleRecord.create(params)
+  rescue ActiveRecord::UnknownAttributeError => e
+    puts "Error on line: #{l}\n#{e.message}"
+    binding.pry
+  end
 end
