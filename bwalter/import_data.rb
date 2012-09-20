@@ -1,15 +1,12 @@
 require 'rubygems'
 require 'active_record'
+require 'yaml'
 
 class SeattleRecord < ActiveRecord::Base
 end
 
-ActiveRecord::Base.establish_connection(
-  :adapter => 'postgresql',
-  :database => 'trevor',
-  :password => '@NN@ rules!',
-  :host => 'localhost'
-)
+db = YAML::load(File.open('db/database.yml'))
+ActiveRecord::Base.establish_connection(db)
 
 lines = File.new('seattle_data.csv').readlines
 header = lines.shift.strip
