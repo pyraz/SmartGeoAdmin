@@ -15,7 +15,7 @@ ActiveRecord::Base.establish_connection(db)
 populate_data('data/JCM_NB_tunnel_test.csv', :north)
 populate_Data('data/JCM_SB_tunnel_test.csv', :south)
 
-def populate_data(file, direction)
+def self.populate_data(file, direction)
   lines = File.new(file).readlines
   header = lines.shift.strip
 
