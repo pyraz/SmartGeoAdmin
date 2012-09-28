@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
 gem 'activerecord'
-gem 'activerecord-mysql2-adapter'
+gem 'mysql2'
 gem 'pry'
 gem 'rb-readline'

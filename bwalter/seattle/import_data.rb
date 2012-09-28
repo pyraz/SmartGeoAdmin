@@ -12,6 +12,7 @@ end
 class Importer
 
   db = YAML::load(File.open('db/database.yml'))
+  #binding.pry
   ActiveRecord::Base.establish_connection(db)
 
   def populate_data(file, direction)
@@ -35,19 +36,19 @@ class Importer
       end
       begin
         if (direction == :north)
-          NBSeattleRecord.create(params)
+          NbSeattleRecord.create(params)
         else
-          SBSeattleRecord.create(params)
+          SbSeattleRecord.create(params)
         end
-      rescue ActiveRecord::UnknownAttributeError => e
+      rescue Exception => e
         puts "Error on line: #{l}\n#{e.message}"
         binding.pry
       end
     end
   end
+
 end
 
 importer = Importer.new
-importer.populate_data('data/JCM_NB_tunnel_test.csv', :north)
-importer.populate_data('data/JCM_SB_tunnel_test.csv', :south)
-
+importer.populate_data('./JCM_NB_tunnel_test.csv', :north)
+importer.populate_data('./JCM_SB_tunnel_test.csv', :south)
