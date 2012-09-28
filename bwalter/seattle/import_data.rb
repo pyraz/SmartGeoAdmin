@@ -48,5 +48,5 @@ end
 
 importer = Importer.new
 importer.populate_data('data/JCM_NB_tunnel_test.csv', :north)
-importer.populate_Data('data/JCM_SB_tunnel_test.csv', :south)
+importer.populate_data('data/JCM_SB_tunnel_test.csv', :south)
 
