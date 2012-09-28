@@ -27,7 +27,8 @@ class Importer
       values = line.strip.split(',')
       keys.each_with_index do |key, i|
         if key == "date"
-          params[key] = DateTime.parse(values[i])
+          params[key] = DateTime.strptime(values[i], 
+              "%l:%M:%S.%L %p %D")
         else
           params[key] = values[i]
         end
