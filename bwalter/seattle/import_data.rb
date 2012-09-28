@@ -14,7 +14,7 @@ class Importer
   db = YAML::load(File.open('db/database.yml'))
   ActiveRecord::Base.establish_connection(db)
 
-  def self.populate_data(file, direction)
+  def populate_data(file, direction)
     lines = File.new(file).readlines
     header = lines.shift.strip
 
