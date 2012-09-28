@@ -12,7 +12,6 @@ end
 class Importer
 
   db = YAML::load(File.open('db/database.yml'))
-  #binding.pry
   ActiveRecord::Base.establish_connection(db)
 
   def populate_data(file, direction)
@@ -29,7 +28,8 @@ class Importer
       keys.each_with_index do |key, i|
         if key == "date"
           params[key] = DateTime.strptime(values[i], 
-              "%l:%M:%S.%L %p %D")
+              "%l:%M:%S.%L %p %m/%d/%Y")
+          binding.pry
         else
           params[key] = values[i]
         end
@@ -42,7 +42,6 @@ class Importer
         end
       rescue Exception => e
         puts "Error on line: #{l}\n#{e.message}"
-        binding.pry
       end
     end
   end
