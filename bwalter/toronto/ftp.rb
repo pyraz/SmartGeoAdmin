@@ -12,7 +12,7 @@ def connect_ftp
   return ftp
 end
 
-log = Logger.new(File.new('ftp.log', 'a'))
+log = Logger.new(File.new('/var/dropbox/toronto_data/ftp.log', 'a'))
 log.level = Logger::INFO
 
 @ftp = connect_ftp
@@ -22,17 +22,18 @@ if files.size == 0
   log.info("There were no files to download")
 else
   log.info("Found #{files.size} files, starting download...")
-  files.each_with_index do |file, index|
+  counter = 0
+  while counter < files.size
     @ftp.chdir('/data/depot') if @ftp.pwd != '/data/depot' 
     begin
-      log.info("Downloading file #{index}: #{file}")
-      #@ftp.getbinaryfile(file, "downloads/#{file}")
-  		#@ftp.delete(file)
-    rescue Net::FTPReplyError
-      log.error("FTP connection closed while trying to download #{file}")
-      log.info("Reconnecting to FTP to try again")
-      @ftp.close unless @ftp.closed?
-      @ftp = connect_ftp
+      log.info("Downloading file #{counter}: #{files[counter]}")
+      @ftp.getbinaryfile(files[counter], "downloads/#{files[counter]}")
+  		@ftp.delete(files[counter])
+      counter += 1
+    rescue Net::FTPError
+      log.error("FTP connection closed while trying to download #{files[counter]}")
+      log.info("Reconnecting to FTP to try again...")
+      @ftp.login('admin', 'tysseBDS3')
     end
   end
 end
