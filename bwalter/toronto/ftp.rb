@@ -20,5 +20,6 @@ else
   files.each do |file|
     log.info("Downloading #{file}...")
     ftp.getbinaryfile(file, "downloads/#{file}")
+		ftp.delete(file)
   end
 end
