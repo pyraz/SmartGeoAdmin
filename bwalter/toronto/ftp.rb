@@ -27,13 +27,14 @@ else
     @ftp.chdir('/data/depot') if @ftp.pwd != '/data/depot' 
     begin
       log.info("Downloading file #{counter}: #{files[counter]}")
-      @ftp.getbinaryfile(files[counter], "downloads/#{files[counter]}")
+      @ftp.getbinaryfile(files[counter], 
+        "/var/dropbox/toronto_data/#{files[counter]}")
   		@ftp.delete(files[counter])
       counter += 1
     rescue Net::FTPError
-      log.error("FTP connection closed while trying to download #{files[counter]}")
+      log.error("FTP connection closed while trying to download " +
+        "#{files[counter]}")
       log.info("Reconnecting to FTP to try again...")
-      @ftp.login('admin', 'tysseBDS3')
     end
   end
 end
