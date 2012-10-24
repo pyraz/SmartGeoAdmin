@@ -1,6 +1,4 @@
 require 'net/ftp'
-require 'timeout'
-require 'pry'
 require 'logger'
 
 def connect_ftp
@@ -9,10 +7,11 @@ def connect_ftp
   ftp.login('admin', 'tysseBDS3')
   ftp.passive = true
   ftp.resume = true
+  ftp.debug_mode = true
   return ftp
 end
 
-log = Logger.new(File.new('/var/dropbox/toronto_data/ftp.log', 'a'))
+log = Logger.new(File.new('ftp.log', 'a'))
 log.level = Logger::INFO
 
 @ftp = connect_ftp
@@ -28,10 +27,11 @@ else
     begin
       log.info("Downloading file #{counter}: #{files[counter]}")
       @ftp.getbinaryfile(files[counter], 
-        "/var/dropbox/toronto_data/#{files[counter]}")
-  		@ftp.delete(files[counter])
+        "downloads/#{files[counter]}")
+  		#@ftp.delete(files[counter])
       counter += 1
-    rescue Net::FTPError
+    rescue Exception => e
+      log.error("Exception raised: #{e.inspect}")
       log.error("FTP connection closed while trying to download " +
         "#{files[counter]}")
       log.info("Reconnecting to FTP to try again...")
