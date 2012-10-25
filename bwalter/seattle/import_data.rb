@@ -29,7 +29,6 @@ class Importer
         if key == "date"
           params[key] = DateTime.strptime(values[i], 
               "%l:%M:%S.%L %p %m/%d/%Y")
-          binding.pry
         else
           params[key] = values[i]
         end
