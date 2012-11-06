@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'active_record'
 require 'yaml'
-require 'pry'
 
 class NbSeattleRecord < ActiveRecord::Base
 end
@@ -16,7 +15,7 @@ class Importer
 
   def populate_data(file, direction, options = {})
     lines = File.new(file).readlines
-    if option[:header] and File.exists?(option[:header])
+    if options[:header] and File.exists?(options[:header])
       header = read_header(file, options)
     else
       header = lines.shift.strip
