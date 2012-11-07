@@ -56,7 +56,7 @@ class Importer
 end
 
 importer = Importer.new
-importer.populate_data('data/JCM_NB_tunnel_nohead.csv', 
-  :north, :header => 'JCM_tunnel_headers.csv')
-importer.populate_data('data/JCM_SB_tunnel_test.csv', 
+#importer.populate_data('data/JCM_NB_tunnel_nohead.csv', 
+#  :north, :header => 'JCM_tunnel_headers.csv')
+importer.populate_data('data/JCM_SB_tunnel_nohead.csv', 
   :south, :header => 'JCM_tunnel_headers.csv')
